@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <!-- 写模板 -->
+  <div id="app">
+    aaaaa
+    <p>dddddd</p>
+    <div>
+      <p>{{name}}-{{message}}</p>
+    </div>
+    <p>{{name}}</p>
+    <p>{{message}}</p>
+  </div>
+
+  <script>
+    let tmpNode = document.querySelector('#app');
+    let data = {
+      name: '阿荣',
+      msg: 'Time enough for love.'
+    }
+
+    // 需要理解： childNodes, children 区别   nodeValue , textContent , outerText , outerHTML , nodeName , nodeType
+
+    // dom -> 字符串模板 -> vNode -> 真正的DOM
+    function compiler(template, data) {
+      // console.log(template.childNodes);
+      // console.log(template.children);
+      let childNodes = template.childNodes; // 子元素
+      if (!childNodes) return;
+      childNodes.forEach((node) => {
+        let type = node.nodeType; // 1元素 3文本
+        // 文本节点
+        if (type === 3) {
+          let txt = node.nodeValue;
+          console.log(txt);
+          // 正则匹配，{{ ... }}
+          // let r = /\{\{(.+?)\}\}/g; // .+? 表示任意字符+贪婪, 小括号表示分组，可以捕获,g全局模式
+          // txt.replace(r, function(_, g1) {
+          //   console.log(g1);
+          //   return '-';
+          //   // 每次匹配到，调用回调函数。
+          //   // 参数：匹配到的内容表示第一个参数，
+          //   // 返回值：替换匹配到的内容，没有默认undefined
+          // });
+        } else if (type === 1) {
+          // 子元素，需要递归。这里传参错误了，不是传入整个数组childNodes，而是具体的node
+          compiler(node, data);
+        }
+      })
+    }
+
+    let generateNode = tmpNode.cloneNode( true ); 
+    // 注意，这里传递引用类型，的地址。没有生成新的template
+    compiler(generateNode, data);
+  </script>
+</body>
+</html>

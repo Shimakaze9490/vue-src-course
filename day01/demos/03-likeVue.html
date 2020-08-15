@@ -40,6 +40,7 @@
     // 在真正的 Vue 源码中是 DOM -> 字符串模板 -> VNode -> 真正的 DOM
     function compiler( template, data ) {
       let childNodes = template.childNodes; // 取出子元素
+      console.log(childNodes);
       for ( let i = 0; i < childNodes.length; i++ ) {
         let type = childNodes[ i ].nodeType; // 1 元素, 3 文本节点
         if ( type === 3 ) {
@@ -59,7 +60,7 @@
 
 
           // 注意:  txt 现在和 DOM 元素是没有关系
-          childNodes[ i ].nodeValue = txt;
+          // childNodes[ i ].nodeValue = txt;
         } 
         else if ( type === 1 ) {
           // 元素, 考虑它有没有子元素, 是否需要将其子元素进行 判断是否要插值
