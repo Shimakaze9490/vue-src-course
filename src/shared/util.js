@@ -84,6 +84,11 @@ export function isPromise (val: any): boolean {
 /**
  * Convert a value to a string that is actually rendered.
  */
+// 对象转换成字符串。 因为默认会显示  obj.toString() ===>  '[object object]'
+// JSON.string    String
+// 注意：这里没有包含所有情况。粗略的。
+// 简单对象。 自己构造的obj
+// 函数也是对象；Date类型；正则表达式；...  都不考虑。
 export function toString (val: any): string {
   return val == null
     ? ''
@@ -181,6 +186,7 @@ export function cached<F: Function> (fn: F): F {
 
 /**
  * Camelize a hyphen-delimited string.
+ *  大小写转换？·
  */
 const camelizeRE = /-(\w)/g
 export const camelize = cached((str: string): string => {
@@ -196,6 +202,7 @@ export const capitalize = cached((str: string): string => {
 
 /**
  * Hyphenate a camelCase string.
+ * 连字符转换成驼峰
  */
 const hyphenateRE = /\B([A-Z])/g
 export const hyphenate = cached((str: string): string => {
